@@ -56,7 +56,7 @@ export const POST = async (request: NextRequest) => {
     response.cookies.set("token", token, {
       httpOnly: true,
       path: "/",
-      sameSite: "strict",
+      // sameSite: "strict",
       secure: true,
     });
 

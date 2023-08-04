@@ -63,9 +63,15 @@ export const POST = async (request: NextRequest) => {
     return response;
   } catch (error: any) {
     if (error.message === "Bad request") {
-      return NextResponse.json({ error: error.message }, { status: 400 });
+      return NextResponse.json(
+        { message: "Action not allowed" },
+        { status: 400 }
+      );
     } else {
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      return NextResponse.json(
+        { message: "Invalid credentials" },
+        { status: 500 }
+      );
     }
   }
 };

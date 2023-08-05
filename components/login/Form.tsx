@@ -52,7 +52,7 @@ const Form = () => {
     // check if any field is empty
     if (email === "" || password === "") {
       // set toast
-      toast.error("Please fill all fields");
+      toast.error("Please fill all the fields");
 
       // set loading to false
       setLoading(false);
@@ -64,8 +64,10 @@ const Form = () => {
     try {
       const response = await axios.post("/api/user/login", data);
 
+      const token = await response.data.token;
+
       // set token to local storage
-      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("token", token);
 
       // set toast
       toast.success("Login successful");
@@ -104,7 +106,7 @@ const Form = () => {
           name="email"
           id="email"
           placeholder="Email"
-          className="text-lg outline-none"
+          className="text-lg outline-none flex-1"
           onChange={handleDataChange}
         />
       </div>
@@ -117,16 +119,19 @@ const Form = () => {
             name="password"
             id="password"
             placeholder="Password"
-            className="text-lg outline-none"
+            className="text-lg outline-none flex-1"
             onChange={handleDataChange}
           />
         </div>
 
-        <Link href="/forgot-password">
-          <p className="text-primary font-bold text-right text-lg hover:underline">
+        <div className="flex justify-end">
+          <Link
+            href="/forgot-password"
+            className="w-fit text-primary font-bold text-right text-lg hover:underline"
+          >
             Forgot Password?
-          </p>
-        </Link>
+          </Link>
+        </div>
       </div>
 
       <div className="flex justify-end">

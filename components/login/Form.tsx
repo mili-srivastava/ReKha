@@ -1,7 +1,7 @@
 "use client";
 
 // react
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 // next
 import Link from "next/link";
@@ -16,8 +16,10 @@ import "react-toastify/dist/ReactToastify.css";
 // icons
 import { HiOutlineMail } from "react-icons/hi";
 import { BiSolidLockAlt } from "react-icons/bi";
+import { UserContext } from "@/context/user";
 
 const Form = () => {
+  const { setUser } = useContext(UserContext);
   const router = useRouter();
 
   // states for login data
@@ -64,6 +66,10 @@ const Form = () => {
     try {
       const response = await axios.post("/api/user/login", data);
 
+      // set user in the context
+      setUser(response.data.user);
+      console.log(response.data.user);
+
       // set toast
       toast.success("Login successful");
 
@@ -80,6 +86,11 @@ const Form = () => {
         toast.error("Something went wrong");
       }
 
+      // set loading to false
+      setLoading(false);
+    }
+    
+    finally {
       // set loading to false
       setLoading(false);
     }

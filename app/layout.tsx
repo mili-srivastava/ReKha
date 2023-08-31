@@ -1,5 +1,6 @@
 import Head from "next/head";
 import "./globals.css";
+import { UserContextProvider } from "@/containers";
 
 export const metadata = {
   title: "ReKha",
@@ -21,7 +22,9 @@ export default function RootLayout({
         <title>{metadata.title}</title>
       </Head>
 
-      <body>{children}</body>
+      <body>
+        <UserContextProvider>{children}</UserContextProvider>
+      </body>
     </html>
   );
 }

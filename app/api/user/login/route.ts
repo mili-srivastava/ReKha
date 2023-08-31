@@ -42,10 +42,13 @@ export const POST = async (request: NextRequest) => {
       id: user._id,
       email: user.email,
       userName: user.userName,
+      name: user.name,
     };
 
+    
+
     //   create token
-    const token = await jwt.sign(tokenData, process.env.JWT_SECRET!, {
+    const token = jwt.sign(tokenData, process.env.JWT_SECRET!, {
       expiresIn: "7d",
     });
 
@@ -56,7 +59,12 @@ export const POST = async (request: NextRequest) => {
     response.cookies.set("token", token, {
       httpOnly: true,
       path: "/",
-      // sameSite: "strict",
+      secure: true,
+    });
+
+    response.cookies.set("user", JSON.stringify(tokenData), {
+      httpOnly: true,
+      path: "/",
       secure: true,
     });
 
@@ -67,11 +75,14 @@ export const POST = async (request: NextRequest) => {
         { message: "Action not allowed" },
         { status: 400 }
       );
-    } else {
+    } else if( error.message === "Invalid credentials") {
       return NextResponse.json(
         { message: "Invalid credentials" },
         { status: 500 }
       );
+    }
+    else {
+      return NextResponse.json({ message: error.message }, { status: 500 });
     }
   }
 };

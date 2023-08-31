@@ -64,11 +64,6 @@ const Form = () => {
     try {
       const response = await axios.post("/api/user/login", data);
 
-      const token = await response.data.token;
-
-      // set token to local storage
-      localStorage.setItem("token", token);
-
       // set toast
       toast.success("Login successful");
 

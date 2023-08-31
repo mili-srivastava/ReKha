@@ -3,7 +3,7 @@ import Link from "next/link";
 // components
 import { Form } from "@/components/login";
 
-const login = () => {
+const login:any = () => {
   return (
     <div className="mt-32">
       <div className="flex flex-col gap-3 m-5">

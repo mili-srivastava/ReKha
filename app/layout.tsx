@@ -1,6 +1,11 @@
 import Head from "next/head";
 import "./globals.css";
+
+// containers
 import { UserContextProvider } from "@/containers";
+
+// components
+import { Navbar } from "@/components";
 
 export const metadata = {
   title: "ReKha",
@@ -23,7 +28,10 @@ export default function RootLayout({
       </Head>
 
       <body>
-        <UserContextProvider>{children}</UserContextProvider>
+        <UserContextProvider>
+          <Navbar />
+          {children}
+        </UserContextProvider>
       </body>
     </html>
   );

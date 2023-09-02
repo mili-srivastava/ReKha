@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/containers";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -29,12 +30,7 @@ const Navbar = () => {
         height="100"
         className="h-7 w-fit"
       />
-      <button
-        className="border-primary border-2 px-5 py-1.5 text-primary font-bold rounded-lg"
-        onClick={logout}
-      >
-        Log Out
-      </button>
+      <Button onClick={logout}>Log Out</Button>
 
       <div className="absolute">
         <ToastContainer />

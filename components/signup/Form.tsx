@@ -71,7 +71,7 @@ const Form = () => {
     // set data
     const data = {
       name,
-      userName: username,
+      userName: username.toLowerCase(),
       email,
       password,
     };

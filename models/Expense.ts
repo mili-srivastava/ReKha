@@ -7,7 +7,11 @@ const ExpenseSchema = new Schema(
       required: true,
       default: Date.now,
     },
-
+    time: {
+      type: String,
+      required: true,
+      default: "00:00",
+    },  
     modeOfPayment: {
       type: String,
       required: true,

@@ -1,10 +1,10 @@
 // components
-import { Navbar } from "@/components";
+import { MidSection } from "@/components/home";
 
 export default function Home() {
   return (
     <main>
-      <Navbar />
+      <MidSection />
     </main>
   );
 }

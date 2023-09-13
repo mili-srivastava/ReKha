@@ -1,7 +1,8 @@
 interface ButtonProps {
   children: React.ReactNode;
   customClass?: string;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+
 }
 
 const Button = (props: ButtonProps) => {

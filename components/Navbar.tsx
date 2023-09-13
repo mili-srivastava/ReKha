@@ -15,6 +15,7 @@ const Navbar = () => {
   const logout = async () => {
     try {
       await axios.get("/api/user/logout");
+      localStorage.removeItem("user");
       router.push("/login");
     } catch (err) {
       toast.error("Something went wrong");

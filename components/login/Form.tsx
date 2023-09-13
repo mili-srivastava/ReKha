@@ -68,7 +68,9 @@ const Form = () => {
 
       // set user in the context
       setUser(response.data.user);
-      console.log(response.data.user);
+
+      // set user in the local storage
+      localStorage.setItem("user", JSON.stringify(response.data.user));
 
       // set toast
       toast.success("Login successful");
@@ -88,9 +90,7 @@ const Form = () => {
 
       // set loading to false
       setLoading(false);
-    }
-    
-    finally {
+    } finally {
       // set loading to false
       setLoading(false);
     }

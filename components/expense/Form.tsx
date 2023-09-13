@@ -1,7 +1,12 @@
 "use client";
 
 import { Button } from "@/containers";
+import { UserContext } from "@/context/user";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useContext, useState } from "react";
 import Select from "react-select";
+import { ToastContainer, toast } from "react-toastify";
 
 const options = [
   { value: "avinash", label: "Avinash" },
@@ -25,17 +30,106 @@ const customStyles = {
 };
 
 const Form = () => {
+  const router = useRouter();
+
+  // const { user } = useContext(UserContext);
+  // get user from local storage
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+
+  const [formData, setFormData] = useState({
+    date: "",
+    time: "",
+    modeOfPayment: "",
+    itemName: "",
+    cost: 1,
+    consumers: [],
+  });
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleConsumersChange = (selectedOptions: any) => {
+    const selectedConsumers = selectedOptions.map(
+      (option: any) => option.value
+    );
+    setFormData((prevData) => ({
+      ...prevData,
+      consumers: selectedConsumers,
+    }));
+  };
+
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+
+    const expenseData = {
+      ...formData,
+      user: user?.id,
+      items: [
+        {
+          name: formData.itemName,
+          cost: formData.cost,
+          consumers: formData.consumers,
+        },
+      ],
+    };
+
+    console.log(expenseData);
+
+    try {
+      const response = await axios.post("/api/expense", expenseData);
+      if (response.status === 201) {
+        // set toast
+        toast.success("Expense added");
+
+        setFormData({
+          date: "",
+          time: "",
+          modeOfPayment: "",
+          itemName: "",
+          cost: 1,
+          consumers: [],
+        });
+
+        router.push("/");
+      }
+    } catch (error: any) {
+      toast.error("Something went wrong");
+      console.error(error);
+    }
+  };
+
   return (
-    <form className="border max-w-md mx-auto rounded p-5 text-secondary flex flex-col gap-5 my-5">
+    <form
+      onSubmit={handleSubmit}
+      className="border max-w-md mx-auto rounded p-5 text-secondary flex flex-col gap-5 my-5"
+    >
+      <ToastContainer />
       <div className="flex justify-between">
         <div className="shadow rounded py-1 px-3">
           <label htmlFor="date">Date:&nbsp;</label>
-          <input type="date" name="date" id="date" />
+          <input
+            type="date"
+            name="date"
+            id="date"
+            value={formData.date}
+            onChange={handleChange}
+          />
         </div>
 
         <div className="shadow rounded py-1 px-3">
           <label htmlFor="time">Time:&nbsp;</label>
-          <input type="time" name="time" id="time" />
+          <input
+            type="time"
+            name="time"
+            id="time"
+            value={formData.time}
+            onChange={handleChange}
+          />
         </div>
       </div>
 
@@ -45,6 +139,8 @@ const Form = () => {
         id="modeOfPayment"
         placeholder="Mode of Payment (eg: GPay, Paytm, PhonePe, Cash)"
         className="shadow rounded py-1 px-3"
+        value={formData.modeOfPayment}
+        onChange={handleChange}
       />
 
       <div>
@@ -57,6 +153,8 @@ const Form = () => {
             id="itemName"
             className="shadow rounded py-1 px-3"
             placeholder="Item Name"
+            value={formData.itemName}
+            onChange={handleChange}
           />
           <input
             type="number"
@@ -64,23 +162,26 @@ const Form = () => {
             id="cost"
             className="shadow rounded py-1 px-3"
             placeholder="Cost"
-          />
-          <input
-            type="number"
-            name="count"
-            id="count"
-            className="shadow rounded py-1 px-3"
-            placeholder="Count"
+            value={formData.cost}
+            onChange={handleChange}
           />
 
           <div className="flex items-center">
             <label htmlFor="consumers">Consumers:&nbsp;</label>
-            <Select isMulti options={options} styles={customStyles} />
+            <Select
+              isMulti
+              options={options}
+              styles={customStyles}
+              onChange={handleConsumersChange}
+            />
           </div>
         </div>
       </div>
 
-      <Button customClass="mt-5 border-2 border-primary w-fit mx-auto py-1 px-5 text-lg hover:bg-primary hover:text-white">
+      <Button
+        onClick={handleSubmit}
+        customClass="mt-5 border-2 border-primary w-fit mx-auto py-1 px-5 text-lg hover:bg-primary hover:text-white"
+      >
         Submit
       </Button>
     </form>

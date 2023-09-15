@@ -12,7 +12,7 @@ connectDB();
 export const POST = async (request: NextRequest) => {
   try {
     const reqBody = await request.json();
-    const { date, modeOfPayment, items, user } = reqBody;
+    const { date, modeOfPayment, items, user, userName } = reqBody;
 
     // create expense object
     const newExpense = new Expense({
@@ -20,6 +20,7 @@ export const POST = async (request: NextRequest) => {
       modeOfPayment: modeOfPayment,
       items: items,
       user: user,
+      userName: userName,
     });
 
     // save expense

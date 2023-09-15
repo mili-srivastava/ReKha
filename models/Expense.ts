@@ -9,7 +9,7 @@ const ExpenseSchema = new Schema(
     time: {
       type: String,
       default: "00:00",
-    },  
+    },
     modeOfPayment: {
       type: String,
       required: true,
@@ -18,6 +18,11 @@ const ExpenseSchema = new Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
+      required: true,
+    },
+
+    userName: {
+      type: String,
       required: true,
     },
 

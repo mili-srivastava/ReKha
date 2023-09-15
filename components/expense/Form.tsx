@@ -9,13 +9,13 @@ import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 
 const options = [
-  { value: "avinash", label: "Avinash" },
-  { value: "himanshu", label: "Himanshu" },
-  { value: "jv", label: "JV" },
-  { value: "rachit", label: "Rachit" },
-  { value: "sahgal", label: "Sahgal" },
-  { value: "shivam", label: "Shivam" },
-  { value: "shreye", label: "Shreye" },
+  { value: "Avinash", label: "Avinash" },
+  { value: "Himanshu", label: "Himanshu" },
+  { value: "JV", label: "JV" },
+  { value: "Rachit", label: "Rachit" },
+  { value: "Sahgal", label: "Sahgal" },
+  { value: "Shivam", label: "Shivam" },
+  { value: "Shreye", label: "Shreye" },
 ];
 
 const customStyles = {
@@ -69,6 +69,7 @@ const Form = () => {
     const expenseData = {
       ...formData,
       user: user?.id,
+      userName: user?.name,
       items: [
         {
           name: formData.itemName,
@@ -91,7 +92,7 @@ const Form = () => {
           time: "",
           modeOfPayment: "",
           itemName: "",
-          cost: 1,
+          cost: 0,
           consumers: [],
         });
 
@@ -162,7 +163,7 @@ const Form = () => {
             id="cost"
             className="shadow rounded py-1 px-3"
             placeholder="Cost"
-            value={formData.cost}
+            // value={formData.cost}
             onChange={handleChange}
           />
 

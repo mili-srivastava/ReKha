@@ -30,6 +30,12 @@ const customStyles = {
 };
 
 const Form = () => {
+  if (typeof window !== 'undefined') {
+    // You can use localStorage here
+    localStorage.setItem('key', 'value');
+  }
+
+  
   const router = useRouter();
 
   // const { user } = useContext(UserContext);

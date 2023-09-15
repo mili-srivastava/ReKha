@@ -4,9 +4,14 @@ import { Button } from "@/containers";
 import { UserContext } from "@/context/user";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
+
+interface User {
+  id: string;
+  name: string;
+}
 
 const options = [
   { value: "Avinash", label: "Avinash" },
@@ -30,18 +35,9 @@ const customStyles = {
 };
 
 const Form = () => {
-  if (typeof window !== 'undefined') {
-    // You can use localStorage here
-    localStorage.setItem('key', 'value');
-  }
-
-  
   const router = useRouter();
 
-  // const { user } = useContext(UserContext);
-  // get user from local storage
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-
+  const [user, setUser] = useState<User | null>(null);
   const [formData, setFormData] = useState({
     date: "",
     time: "",
@@ -50,6 +46,12 @@ const Form = () => {
     cost: 1,
     consumers: [],
   });
+
+  useEffect(() => {
+    // get user from local storage
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    setUser(user);
+  }, []);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
